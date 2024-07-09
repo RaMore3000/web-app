@@ -11,7 +11,7 @@ const BlogList = ({ blogs, title}) => {
     const navigate = useNavigate();
 
     const { id } = useParams();
-    const { data: blog } = useFetch('http://localhost:8000/blogs/' + id);
+    const { data: blog } = useFetch('https://web-app-op8t.onrender.com' + id);
     const [totalAmount, setTotalAmount] = useState(0);
     // const navigate = useNavigate(); 
     // const location = useLocation();
@@ -23,7 +23,7 @@ const BlogList = ({ blogs, title}) => {
     }, [blogs]);
 
     const handleClick = (id) => {
-      fetch('http://localhost:8000/blogs/' + id, {
+      fetch('https://web-app-op8t.onrender.com' + id, {
         method: 'DELETE'
       }).then(() => {
         window.location.reload();
