@@ -1,0 +1,84 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const Create = () => {
+
+    const [date, setDate] = useState();
+    const [description, setDescription] = useState('');
+    const [amount, setAmount] = useState('');
+    const [category, setCategory] = useState('home');
+    const navigate = useNavigate(); // navigate is a object containing stored history
+
+    // const [errors, setErrors] = useState({});
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      const blog = { date, description, amount, category };
+      
+      let store = JSON.parse(localStorage.getItem('store')) || [];
+      store.push(blog);
+      localStorage.setItem('store', JSON.stringify(store));
+       
+      fetch('http://localhost:8000/blogs/', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(blog)
+      }).then(() => {
+        // console.log('new blog added');
+        // history.go(-1); 
+        navigate('/Expense'); 
+      });
+    }
+
+    return ( 
+        <div className="create">
+        <h1>Add Expense</h1>
+        <form onSubmit={handleSubmit}>
+        <br></br>
+        <div className="form-group">
+        <label htmlFor="date">Date:</label>
+        <input
+          type="date"
+          id="date"
+          required
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        /></div>
+       <div className="form-group">
+        <label htmlFor="description">Description:</label>
+        <input
+          type="text"
+          id="description"
+          required
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        /></div>
+        <div className="form-group">
+        <label htmlFor="amount">Amount:</label>
+        <input
+          type="number"
+          id="amount"
+          required
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        /></div>
+        <div className="form-group">
+        <label htmlFor="category">Category:</label>
+        <select
+          id="category"
+          required
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="Home">Home</option>
+            <option value="Personal">Personal</option>
+            <option value="Office">Office</option>
+            <option value="Others">Others</option>
+          </select>
+          </div>
+          <button type="submit" className="submit-button">Submit</button>
+          </form>
+        </div>
+     );
+}
+ 
+export default Create; 
