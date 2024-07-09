@@ -29,10 +29,10 @@ const Create = () => {
       localStorage.setItem('store', JSON.stringify(store));
       if (location.state && location.state.blog) {
         // Edit exist blog
-        fetch(`http://localhost:8000/blogs/${location.state.blog.id}`, {
+        fetch(`https://web-app-op8t.onrender.com${location.state.blog.id}`, {
             method: 'DELETE',
         }).then(() => {
-            fetch('http://localhost:8000/blogs', {
+            fetch('https://web-app-op8t.onrender.com', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(blog),
