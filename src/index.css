@@ -162,7 +162,7 @@ nav ul li a.active,a:hover{
 	}
 }
 .blog-list {
-	padding-top: 8rem;
+	padding-top: 2rem;
 }
 .head {
 	margin-left: 1rem;
@@ -173,7 +173,6 @@ nav ul li a.active,a:hover{
 	margin-right: 32% ;
   }
 }
-
 
   .blog-preview:hover {
 	box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
@@ -231,3 +230,35 @@ nav ul li a.active,a:hover{
   .submit-button:hover {
 	background-color: #218838;
   }
+
+.box {
+	padding-top: 7rem;
+}
+
+.box button {
+	background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@media (min-width:1050px) {
+	.Buttons{
+	margin-left: 25%;
+	margin-right: 25%;
+	}
+  }
+  .box button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+.blog-preview button {
+	background-color: #b74646;
+}
+.blog-preview button:hover {
+	background-color: #955555;
+}
+ 

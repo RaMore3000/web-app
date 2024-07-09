@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Create = () => {
 
     const [date, setDate] = useState();
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
-    const [category, setCategory] = useState('home');
+    const [category, setCategory] = useState('Home');
     const navigate = useNavigate(); // navigate is a object containing stored history
-
+    const location = useLocation();
     // const [errors, setErrors] = useState({});
+    useEffect(() => {
+      if (location.state && location.state.blog) {
+          const { date, description, amount, category } = location.state.blog;
+          setDate(date);
+          setDescription(description);
+          setAmount(amount);
+          setCategory(category);
+      }
+  }, [location.state]); 
+
     const handleSubmit = (e) => {
       e.preventDefault();
       const blog = { date, description, amount, category };
@@ -17,18 +27,30 @@ const Create = () => {
       let store = JSON.parse(localStorage.getItem('store')) || [];
       store.push(blog);
       localStorage.setItem('store', JSON.stringify(store));
-       
-      fetch('http://localhost:8000/blogs/', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(blog)
-      }).then(() => {
-        // console.log('new blog added');
-        // history.go(-1); 
-        navigate('/Expense'); 
-      });
+      if (location.state && location.state.blog) {
+        // Edit exist blog
+        fetch(`http://localhost:8000/blogs/${location.state.blog.id}`, {
+            method: 'DELETE',
+        }).then(() => {
+            fetch('http://localhost:8000/blogs', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(blog),
+            }).then(() => {
+                navigate('/Expense');
+            });
+        });
+    } else {
+        // Add new blog
+        fetch('http://localhost:8000/blogs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(blog),
+        }).then(() => {
+            navigate('/Expense');
+        });
     }
-
+};
     return ( 
         <div className="create">
         <h1>Add Expense</h1>

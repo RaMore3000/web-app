@@ -5,7 +5,9 @@ const useFetch = (url) => {
     // const [isPending, setIsPending] = useState(true);
 
     useEffect(() => {
-        const abortCont = new AbortController();
+      const abortCont = new AbortController();
+
+      fetch(url, { signal: abortCont.signal })
         // console.log('use effect ran');
         // console.log(blogs);
         fetch(url)
