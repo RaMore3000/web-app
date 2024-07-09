@@ -3,7 +3,7 @@ import BlogList from "./BlogList";
 import useFetch from "./useFetch";
 
 const Expense = () => {
-    const { data: blogs } = useFetch('https://web-app-op8t.onrender.com');
+    const { data: blogs } = useFetch('https://web-app-op8t.onrender.com/blogs/');
     const [selectedCategory, setSelectedCategory] = useState('');
 
     const handleCategoryClick = (category) => {
