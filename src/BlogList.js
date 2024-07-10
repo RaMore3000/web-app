@@ -26,8 +26,14 @@ const BlogList = ({ blogs, title}) => {
       fetch('https://web-app-op8t.onrender.com/blogs/' + id, {
         method: 'DELETE'
       }).then(() => {
-        window.location.reload();
-      })
+        fetch('https://web-app-op8t.onrender.com/blogs/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(blog),
+      }).then(() => {
+          navigate('/Create');
+      });
+  });
     }
 
     const handleEdit = (blog) => {
