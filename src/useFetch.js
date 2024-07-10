@@ -1,29 +1,29 @@
 import { useState, useEffect } from "react";
 
 const useFetch = (url) => {
-    const [data, setData] = useState(null);
-    // const [isPending, setIsPending] = useState(true);
+  const [data, setData] = useState(null);
 
-    useEffect(() => {
-      const abortController = new AbortController();
-      const signal = abortController.signal;
+  useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
 
-      fetch(url, { signal })
-        // console.log('use effect ran');
-        // console.log(blogs);
-        fetch(url)
-        .then(res => {
-         return res.json()
-        })
-        .then(data => {
-          //  console.log(data);
-          //  setIsPending(false);
-           setData(data);
-        });
-        return () => abortController.abort();
-      }, [url]);
+    const fetchData = async () => {
+      const response = await fetch(url, { signal });
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const data = await response.json();
+        setData(data);
+      }
+    };
 
-      return { data };
+    fetchData();
+
+    return () => {
+      abortController.abort();
+    };
+  }, [url]);
+
+  return { data };
 };
 
 export default useFetch;
